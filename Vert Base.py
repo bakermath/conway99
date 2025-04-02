@@ -61,11 +61,11 @@ s = Solver()
 s.set("sat.cardinality.solver", True)
 
 # Add degree conditions
-s.add([AtLeast(*([x[i][j] for j in range(99)]),14) for i in range(99)])
-s.add([AtMost(*([x[i][j] for j in range(99)]),14) for i in range(99)])
+s.add([AtLeast(*([x[i][j] for j in range(99)]),14) for i in range(15,99)])
+s.add([AtMost(*([x[i][j] for j in range(99)]),14) for i in range(15,99)])
 
 # This part takes several minutes to run.
-for i in range(99):
+for i in range(1,99):
     # Add common neighbor conditions
     s.add([AtMost(*([y[i][j][k] for j in range(99)]+[x[i][k]]), 2) for k in range(i+1,99)])
     s.add([AtLeast(*([y[i][j][k] for j in range(99)]+[x[i][k]]), 2) for k in range(i+1,99)])
@@ -75,7 +75,6 @@ for i in range(99):
         s.add([Or([j==i, j==k, Not(y[i][j][k]), x[i][j]]) for j in range(99)])
         s.add([Or([j==i, j==k, Not(y[i][j][k]), x[j][k]]) for j in range(99)])
 
-"""
 # Check for solution. This part may take a very, very long time to run.
 if s.check()==sat:
     print("We found a solution!!! :)")
@@ -87,4 +86,4 @@ if s.check()==sat:
                 continue
             print(i,j,1 if m.evaluate(x[i][j]) else 0)
 else:
-    print ("Failed to solve :(")"""
+    print ("Failed to solve :(")
